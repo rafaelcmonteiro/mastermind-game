@@ -1,6 +1,6 @@
 from flask import Flask
 import mastermind_logic as l_master
-app = Flask(__name__)
+app = Flask("mastermind")
 
 
 @app.route("/generate-number/", methods=['GET'])

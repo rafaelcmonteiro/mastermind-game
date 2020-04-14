@@ -15,7 +15,7 @@ def creating_user(user_data):
     print(x.inserted_id)
 
 
-# This function add a new line element on a specific document.
+# This function add a new line element on a specific document, or update the past content.
 def updating_user(user_key, dict_update):
     connection = db_connection()
     my_col = connection["users"]
@@ -36,6 +36,7 @@ def find_users():
         print(x)
 
 
+# The key is the person name.
 def find_user(user_key):
     connection = db_connection()
     my_col = connection["users"]
@@ -45,5 +46,5 @@ def find_user(user_key):
 
 
 if __name__ == '__main__':
-    update_dict = {"description": "rafael é uma pessoa confiavel."}
+    update_dict = {"password": "123456"}
     updating_user("Rafael", update_dict)
