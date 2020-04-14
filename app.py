@@ -1,6 +1,16 @@
-from flask import Flask
+from flask import Flask, render_template
 import mastermind_logic as l_master
+
 app = Flask("mastermind")
+
+
+@app.route("/", methods=['GET'])
+def index():
+    lista = [
+        {'name': 'Rafael', 'user': 'rafael10'},
+        {'name': 'Anny', 'user': 'rafael1011'}
+    ]
+    return render_template('index.html', titulo='login', usuarios=lista)
 
 
 @app.route("/generate-number/", methods=['GET'])
@@ -27,4 +37,4 @@ def page_not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, threaded=True)
+    app.run(host='0.0.0.0', port=5001, threaded=True, debug=True)

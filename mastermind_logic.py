@@ -10,7 +10,8 @@ def generate_number():
     str_number = ""
     for number in str_list:
         str_number = str_number + number
-    return str_number
+    dict_number = {"number": str_number}
+    return dict_number
 
 
 def to_txt():
@@ -44,9 +45,10 @@ def master_mind(number_typed):
                 result += '1'
             else:
                 result += '0'
-    to_send = "Resultado: {} Número Digitado: {}".format(result, number_typed)
+    to_send = {"result": result, "number_typed": number_typed}
     return to_send
 
 
 if __name__ == '__main__':
-    pass
+    value = master_mind("5412")
+    print(value)
