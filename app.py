@@ -3,14 +3,20 @@ import mastermind_logic as l_master
 
 app = Flask("mastermind")
 
-
+# Test
+'''
 @app.route("/", methods=['GET'])
 def index():
-    lista = [
-        {'name': 'Rafael', 'user': 'rafael10'},
-        {'name': 'Anny', 'user': 'rafael1011'}
-    ]
-    return render_template('index.html', titulo='login', usuarios=lista)
+    dict_user = {"name": "Rafael", "best_time": 5}
+    return render_template('perfil.html', titulo='login', usuario=dict_user)
+
+# Test
+@app.route("/game/", methods=['GET'])
+def mastermind_game():
+    dict_score = {"": "Rafael", "best_time": 5}
+
+    return render_template('mastermind.html', titulo='game', usuario=dict_user)
+'''
 
 
 @app.route("/generate-number/", methods=['GET'])
@@ -19,15 +25,17 @@ def random_number():
     return str_number, 200
 
 
-@app.route("/initialize/", methods=['GET'])
-def to_txt():
-    resolution = l_master.to_txt()
+# This function insert the random number on user dict.
+@app.route("/initialize/<string:user_name>/", methods=['GET'])
+def to_db(user_name):
+    resolution = l_master.inserting_random(user_name)
     return resolution, 200
 
 
-@app.route("/mastermind/<string:number_typed>/", methods=['GET'])
-def mastermind(number_typed):
-    to_send = l_master.master_mind(number_typed)
+# This function trigger the game.
+@app.route("/mastermind/<string:number_typed>/<string:user>/", methods=['GET'])
+def mastermind(number_typed, user):
+    to_send = l_master.master_mind(number_typed, user)
     return to_send, 200
 
 

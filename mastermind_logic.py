@@ -1,39 +1,33 @@
+import user_dao as dao
 import random
 import os
 
 path = os.getcwd()
 
 
+# Generate a random number.
 def generate_number():
     random_list = random.sample(range(9), 4)
     str_list = list(map(str, random_list))
     str_number = ""
     for number in str_list:
         str_number = str_number + number
-    dict_number = {"number": str_number}
-    return dict_number
+    return str_number
 
 
-def to_txt():
+# Update the user dict with random number. user_name = string
+def inserting_random(user_name):
     number = generate_number()
-    print("{}/random.txt".format(path))
-    with open('{}/random.txt'.format(path), 'w') as file:
-        file.write("{}\n".format(number))
-    # This try check if the file was created correctly.
-    try:
-        f = open('random.txt')
-        f.close()
-        resolution = "Ok"
-    # If the no file was found throw an error, and return Oops.
-    except FileNotFoundError:
-        resolution = "Oops!"
-    # The resolution is return with the content 'Ok' or 'Oops'
-    return resolution
+    number_dict = {"random": number}
+    user = dao.updating_user(user_name, number_dict)
+    return user
 
 
-def master_mind(number_typed):
-    with open("{}/random.txt".format(path), 'r') as f:
-        random_number = f.readline()
+# user_name = string
+def master_mind(number_typed, user_name):
+    user_data = dao.find_user(user_name)
+    random_number = user_data["random"]
+
     result = ''
     for index, number in enumerate(number_typed):
         # Count gets how many times obj occurs on list.
@@ -50,5 +44,4 @@ def master_mind(number_typed):
 
 
 if __name__ == '__main__':
-    value = master_mind("5412")
-    print(value)
+    pass
