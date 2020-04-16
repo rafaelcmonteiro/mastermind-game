@@ -3,20 +3,21 @@ import mastermind_logic as l_master
 
 app = Flask("mastermind")
 
+
 # Test
-'''
+
+
 @app.route("/", methods=['GET'])
 def index():
     dict_user = {"name": "Rafael", "best_time": 5}
     return render_template('perfil.html', titulo='login', usuario=dict_user)
 
+
 # Test
 @app.route("/game/", methods=['GET'])
 def mastermind_game():
     dict_score = {"": "Rafael", "best_time": 5}
-
-    return render_template('mastermind.html', titulo='game', usuario=dict_user)
-'''
+    return render_template('mastermind.html', titulo='game', usuario=dict_score)
 
 
 @app.route("/generate-number/", methods=['GET'])
