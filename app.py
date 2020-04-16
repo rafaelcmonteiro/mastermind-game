@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for
 from forms import RegistrationForm, LoginForm
 import mastermind_logic as l_master
 
@@ -6,9 +6,18 @@ app = Flask("mastermind")
 app.config['SECRET_KEY'] = '57956B56B56545B'
 
 
-@app.route("/register")
+@app.route("/", methods=['GET'])
+def home():
+    return render_template('index.html', title='login')
+
+
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+    if form.validate_on_submit():
+        # use python version above 3.6
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
 
@@ -19,8 +28,8 @@ def login():
 
 
 # Test
-@app.route("/", methods=['GET'])
-def index():
+@app.route("/perfil", methods=['GET'])
+def perfil():
     dict_user = {"name": "Rafael", "best_time": "5"}
     return render_template('perfil.html', titulo='login', usuario=dict_user)
 

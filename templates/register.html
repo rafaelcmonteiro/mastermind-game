@@ -6,7 +6,7 @@
     <div class="col-sm-4">
       <form class="form-horizontal" action="" method="POST">
           <fieldset>
-              <legend>Cadastro</legend>
+              <legend align="center">Cadastro</legend>
             {{ form.hidden_tag() }}
             <div class="form-group">
               <div class="col-sm-12">
@@ -29,10 +29,11 @@
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                Already have an Account? <a class="ml-2" href="{{ url_for('login') }}">Sign in</a>
+                Já tem uma conta? <a class="ml-2" href="{{ url_for('login') }}">Log-in</a>
             </small>
         </div>
     </div>
     <div class="col-sm-2">
+</div>
 </div>
 {% endblock content %}
