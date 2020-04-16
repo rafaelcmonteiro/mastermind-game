@@ -1,23 +1,28 @@
 from flask import Flask, render_template
+from forms import RegistrationForm, LoginForm
 import mastermind_logic as l_master
 
 app = Flask("mastermind")
+app.config['SECRET_KEY'] = '57956B56B56545B'
+
+
+@app.route("/register")
+def register():
+    form = RegistrationForm()
+    return render_template('register.html', title='Register', form=form)
+
+
+@app.route("/login")
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='login', form=form)
 
 
 # Test
-
-
 @app.route("/", methods=['GET'])
 def index():
-    dict_user = {"name": "Rafael", "best_time": 5}
+    dict_user = {"name": "Rafael", "best_time": "5"}
     return render_template('perfil.html', titulo='login', usuario=dict_user)
-
-
-# Test
-@app.route("/game/", methods=['GET'])
-def mastermind_game():
-    dict_score = {"": "Rafael", "best_time": 5}
-    return render_template('mastermind.html', titulo='game', usuario=dict_score)
 
 
 @app.route("/generate-number/", methods=['GET'])
@@ -31,6 +36,11 @@ def random_number():
 def to_db(user_name):
     resolution = l_master.inserting_random(user_name)
     return resolution, 200
+
+
+@app.route("/game/", methods=['GET'])
+def mastermind_game():
+    return render_template('mastermind.html', titulo='game')
 
 
 # This function trigger the game.
