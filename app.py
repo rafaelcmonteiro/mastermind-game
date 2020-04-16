@@ -2,33 +2,33 @@ from flask import Flask, render_template, flash, redirect, url_for
 from forms import RegistrationForm, LoginForm
 import mastermind_logic as l_master
 
-app = Flask("mastermind")
-app.config['SECRET_KEY'] = '57956B56B56545B'
+app = Flask("__name__")
+#app.config['SECRET_KEY'] = '57956B56B56545B'
 
 
-@app.route("/", methods=['GET'])
+@app.route("/")
+@app.route("/home/", methods=['GET'])
 def home():
-    return render_template('index.html', title='login')
+    return render_template('index.html', title='home')
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register/", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        # use python version above 3.6
-        flash(f'Account created for {form.username.data}!', 'success')
+        flash('Account created for {}!'.format(form.username.data), category='success')
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route("/login")
+@app.route("/login/")
 def login():
     form = LoginForm()
     return render_template('login.html', title='login', form=form)
 
 
 # Test
-@app.route("/perfil", methods=['GET'])
+@app.route("/perfil/", methods=['GET'])
 def perfil():
     dict_user = {"name": "Rafael", "best_time": "5"}
     return render_template('perfil.html', titulo='login', usuario=dict_user)
