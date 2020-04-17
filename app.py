@@ -3,11 +3,11 @@ from forms import RegistrationForm, LoginForm
 import mastermind_logic as l_master
 import user_dao as dao
 import bcrypt
-import mastermind_entity as entity
 
 app = Flask("mastermind")
 app.config['SECRET_KEY'] = '57956B56B56545B'
 list_dict = []
+
 
 @app.route("/")
 @app.route("/home/", methods=['GET'])
