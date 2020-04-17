@@ -9,6 +9,14 @@ app.config['SECRET_KEY'] = '57956B56B56545B'
 list_dict = []
 
 
+@app.before_request
+def require_login():
+    allowed_route = ['login', 'register', 'home']
+    if request.endpoint not in allowed_route and 'email' not in session:
+        return redirect(url_for('login'))
+    return
+
+
 @app.route("/")
 @app.route("/home/", methods=['GET'])
 def home():
@@ -25,7 +33,6 @@ def register():
         dict_user = {"name": form.username.data, "user": form.email.data, "password": hash_pass}
         # Creating user
         dao.creating_user(dict_user)
-        session['username'] = form.email.data
         flash('Account created for {}!'.format(form.username.data), category='success')
         return redirect(url_for('perfil'))
     return render_template('register.html', title='Register', form=form)
@@ -37,6 +44,8 @@ def login():
     if form.validate_on_submit():
         login_user = dao.find_user(form.email.data)
         if login_user:
+            session['email'] = form.email.data
+            print(session)
             flash('You have been logged in!', 'success')
             return redirect(url_for('perfil'))
         else:
@@ -44,12 +53,18 @@ def login():
     return render_template('login.html', title='login', form=form)
 
 
+@app.route("/log-out/")
+def sign_out():
+    session.clear()
+    return redirect(url_for("home"))
+
+
 # Test
 @app.route("/perfil/", methods=['GET'])
 def perfil():
     if 'username' in session:
         return 'You are logged in as ' + session['username']
-    return render_template('perfil.html', titulo='login')
+    return render_template('perfil.html', title='perfil', nav_bar=True)
 
 
 @app.route("/generate-number/", methods=['GET'])
@@ -67,7 +82,7 @@ def to_db(user_name):
 
 @app.route("/game/", methods=['GET'])
 def mastermind_game():
-    return render_template('mastermind.html', titulo='game')
+    return render_template('mastermind.html', title='game', nav_bar=True)
 
 
 # This function trigger the game.
@@ -76,7 +91,7 @@ def mastermind():
     number_typed = request.form['typed-number']
     to_send = l_master.master_mind(number_typed)
     list_dict.append(to_send)
-    return render_template('mastermind.html', titulo='game', tentativas=list_dict), 200
+    return render_template('mastermind.html', title='game', tentativas=list_dict, nav_bar=True), 200
 
 
 @app.errorhandler(404)

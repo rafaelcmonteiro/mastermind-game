@@ -11,8 +11,28 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .style-padding{
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
+    {% if nav_bar %}
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <span class="navbar-brand">Mastermind</span>
+            </div>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="{{ url_for('perfil') }}">Perfil</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('sign_out') }}"><span class="glyphicon glyphicon-log-out"></span><span class="style-padding">Sair</span></a></li>
+            </ul>
+          </div>
+        </nav>
+    {% endif %}
 <div class="container">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
