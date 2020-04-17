@@ -16,10 +16,8 @@
       <tbody>
         {% for tentativa in tentativas %}
         <tr>
-
             <td>{{ tentativa['number_typed'] }}</td>
             <td>{{ tentativa['result'] }}</td>
-
         </tr>
       {% endfor %}
 
@@ -32,9 +30,17 @@
           <label for="typed-number">Número</label>
           <input type="text" class="form-control" id="typed-number" name="typed-number">
         </div>
-        <button type="submit" class="btn btn-default">Checar</button>
+        <button type="submit" {% if button_disabled %} disabled {% endif %}  class="btn btn-default">Checar</button>
       </form>
-    </div>
+      {% if success %}
+        <div class="alert alert-{{ category }}">{{ message_category }}</div>
+      {% endif %}
+       </div>
+      <hr>
+      <form method="GET" action="{{ url_for('mastermind_game') }}">
+        <button type="submit" class="btn btn-primary btn-lg btn-block" >New Game</button>
+      </form>
+
       </div>
   </div>
 </div>

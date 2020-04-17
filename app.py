@@ -11,10 +11,9 @@ list_dict = []
 
 @app.before_request
 def require_login():
-    allowed_route = ['login', 'register', 'home']
-    if request.endpoint not in allowed_route and 'email' not in session:
+    allowed_route = ['login', 'register', 'home', 'mastermind_game', 'mastermind']
+    if request.endpoint not in allowed_route:
         return redirect(url_for('login'))
-    return
 
 
 @app.route("/")
@@ -62,8 +61,8 @@ def sign_out():
 # Test
 @app.route("/perfil/", methods=['GET'])
 def perfil():
-    if 'username' in session:
-        return 'You are logged in as ' + session['username']
+    # if 'username' in session:
+    # return 'You are logged in as ' + session['username']
     return render_template('perfil.html', title='perfil', nav_bar=True)
 
 
@@ -82,7 +81,8 @@ def to_db(user_name):
 
 @app.route("/game/", methods=['GET'])
 def mastermind_game():
-    return render_template('mastermind.html', title='game', nav_bar=True)
+    list_dict.clear()
+    return render_template('mastermind.html', title='game', nav_bar=False)
 
 
 # This function trigger the game.
@@ -90,8 +90,18 @@ def mastermind_game():
 def mastermind():
     number_typed = request.form['typed-number']
     to_send = l_master.master_mind(number_typed)
-    list_dict.append(to_send)
-    return render_template('mastermind.html', title='game', tentativas=list_dict, nav_bar=True), 200
+    if len(list_dict) <= 9:
+        if to_send['result'] == '1111':
+            return render_template('mastermind.html', title='game', tentativas=list_dict, nav_bar=False,
+                                   button_disabled=True, success=True, category='success',
+                                   message_category='Parabéns, você acertou.'), 200
+        else:
+            list_dict.append(to_send)
+            return render_template('mastermind.html', title='game', tentativas=list_dict, nav_bar=False), 200
+    else:
+        return render_template('mastermind.html', title='game', tentativas=list_dict, nav_bar=False,
+                               button_disabled=True, success=True, category='danger',
+                               message_category='Você chegou ao limite de tentativas, você perdeu.'), 200
 
 
 @app.errorhandler(404)
