@@ -29,18 +29,23 @@
         </tr>
       </thead>
       <tbody>
+        {% for tentativa in tentativas %}
         <tr>
-          <td>1254</td>
-          <td>1</td>
+
+            <td>{{ tentativa['number_typed'] }}</td>
+            <td>{{ tentativa['result'] }}</td>
+
         </tr>
+      {% endfor %}
+
       </tbody>
     </table>
 
     <div>
-      <form action="">
+      <form method="POST" action="{{ url_for('mastermind') }}">
         <div class="form-group">
           <label for="typed-number">Número</label>
-          <input type="text" class="form-control" id="typed-number">
+          <input type="text" class="form-control" id="typed-number" name="typed-number">
         </div>
         <button type="submit" class="btn btn-default">Checar</button>
       </form>

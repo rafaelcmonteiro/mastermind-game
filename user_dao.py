@@ -49,9 +49,9 @@ def updating_user(user_key, dict_update):
 def removing_user(user_id):
     connection = db_connection()
     my_col = connection["users"]
-    my_query = {"_id": user_id}
+    my_query = {"user": user_id}
     my_col.delete_one(my_query)
 
 
 if __name__ == '__main__':
-    pass
+    print(find_user('rafael_shene@hotmail.com'))

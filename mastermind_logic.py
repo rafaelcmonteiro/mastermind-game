@@ -24,10 +24,10 @@ def inserting_random(user_name):
 
 
 # user_name = string
-def master_mind(number_typed, user_name):
-    user_data = dao.find_user(user_name)
-    random_number = user_data["random"]
-
+def master_mind(number_typed):
+    #user_data = dao.find_user(user_name)
+    #random_number = user_data["random"]
+    random_number = '1234'
     result = ''
     for index, number in enumerate(number_typed):
         # Count gets how many times obj occurs on list.

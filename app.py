@@ -1,10 +1,13 @@
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, request, session
 from forms import RegistrationForm, LoginForm
 import mastermind_logic as l_master
+import user_dao as dao
+import bcrypt
+import mastermind_entity as entity
 
 app = Flask("mastermind")
 app.config['SECRET_KEY'] = '57956B56B56545B'
-
+list_dict = []
 
 @app.route("/")
 @app.route("/home/", methods=['GET'])
@@ -16,8 +19,15 @@ def home():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        # Encrypting password
+        hash_pass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
+        # Making a dictionary
+        dict_user = {"name": form.username.data, "user": form.email.data, "password": hash_pass}
+        # Creating user
+        dao.creating_user(dict_user)
+        session['username'] = form.email.data
         flash('Account created for {}!'.format(form.username.data), category='success')
-        return redirect(url_for('home'))
+        return redirect(url_for('perfil'))
     return render_template('register.html', title='Register', form=form)
 
 
@@ -25,9 +35,10 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+        login_user = dao.find_user(form.email.data)
+        if login_user:
             flash('You have been logged in!', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('perfil'))
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='login', form=form)
@@ -36,8 +47,9 @@ def login():
 # Test
 @app.route("/perfil/", methods=['GET'])
 def perfil():
-    dict_user = {"name": "Rafael", "best_time": "5"}
-    return render_template('perfil.html', titulo='login', usuario=dict_user)
+    if 'username' in session:
+        return 'You are logged in as ' + session['username']
+    return render_template('perfil.html', titulo='login')
 
 
 @app.route("/generate-number/", methods=['GET'])
@@ -59,10 +71,12 @@ def mastermind_game():
 
 
 # This function trigger the game.
-@app.route("/mastermind/<string:number_typed>/<string:user>/", methods=['GET'])
-def mastermind(number_typed, user):
-    to_send = l_master.master_mind(number_typed, user)
-    return to_send, 200
+@app.route("/mastermind/", methods=['GET', 'POST'])
+def mastermind():
+    number_typed = request.form['typed-number']
+    to_send = l_master.master_mind(number_typed)
+    list_dict.append(to_send)
+    return render_template('mastermind.html', titulo='game', tentativas=list_dict), 200
 
 
 @app.errorhandler(404)
