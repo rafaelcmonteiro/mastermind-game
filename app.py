@@ -2,11 +2,12 @@ from flask import Flask, render_template, flash, redirect, url_for, request, ses
 from forms import RegistrationForm, LoginForm
 import mastermind_logic as l_master
 import user_dao as dao
+from entity.mastermindEntity import DictClass
 import bcrypt
 
 app = Flask("mastermind")
 app.config['SECRET_KEY'] = '57956B56B56545B'
-list_dict = []
+objectMastermind = DictClass([{}])
 
 
 @app.before_request
@@ -81,7 +82,8 @@ def to_db(user_name):
 
 @app.route("/game/", methods=['GET'])
 def mastermind_game():
-    list_dict.clear()
+    objectMastermind.list_dict.clear()
+    session['random_number'] = l_master.generate_number()
     return render_template('mastermind.html', title='game', nav_bar=False)
 
 
@@ -89,17 +91,19 @@ def mastermind_game():
 @app.route("/mastermind/", methods=['GET', 'POST'])
 def mastermind():
     number_typed = request.form['typed-number']
-    to_send = l_master.master_mind(number_typed)
-    if len(list_dict) <= 9:
+    to_send = l_master.master_mind(number_typed, session['random_number'])
+    objectMastermind.list_dict.append(to_send)
+    session['list_dict'] = objectMastermind.list_dict
+    print(session)
+    if len(session['list_dict']) <= 9:
         if to_send['result'] == '1111':
-            return render_template('mastermind.html', title='game', tentativas=list_dict, nav_bar=False,
+            return render_template('mastermind.html', title='game', tentativas=session['list_dict'], nav_bar=False,
                                    button_disabled=True, success=True, category='success',
                                    message_category='Parabéns, você acertou.'), 200
         else:
-            list_dict.append(to_send)
-            return render_template('mastermind.html', title='game', tentativas=list_dict, nav_bar=False), 200
+            return render_template('mastermind.html', title='game', tentativas=session['list_dict'], nav_bar=False), 200
     else:
-        return render_template('mastermind.html', title='game', tentativas=list_dict, nav_bar=False,
+        return render_template('mastermind.html', title='game', tentativas=session['list_dict'], nav_bar=False,
                                button_disabled=True, success=True, category='danger',
                                message_category='Você chegou ao limite de tentativas, você perdeu.'), 200
 
