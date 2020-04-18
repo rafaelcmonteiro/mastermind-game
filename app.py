@@ -1,5 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, session
-from forms import RegistrationForm, LoginForm
+from flask import Flask, render_template, redirect, url_for, request, session
 import mastermind_logic as l_master
 import user_dao as dao
 from entity.mastermindEntity import DictClass
@@ -10,74 +9,59 @@ app.config['SECRET_KEY'] = '57956B56B56545B'
 objectMastermind = DictClass([{}])
 
 
-@app.before_request
-def require_login():
-    allowed_route = ['login', 'register', 'home', 'mastermind_game', 'mastermind']
-    if request.endpoint not in allowed_route:
-        return redirect(url_for('login'))
-
-
 @app.route("/")
 @app.route("/home/", methods=['GET'])
 def home():
     return render_template('index.html', title='home')
 
 
-@app.route("/register/", methods=['GET', 'POST'])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        # Encrypting password
-        hash_pass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
-        # Making a dictionary
-        dict_user = {"name": form.username.data, "user": form.email.data, "password": hash_pass}
-        # Creating user
-        dao.creating_user(dict_user)
-        flash('Account created for {}!'.format(form.username.data), category='success')
-        return redirect(url_for('perfil'))
-    return render_template('register.html', title='Register', form=form)
+    return "Pagina em criação."
 
 
-@app.route("/login/", methods=['GET', 'POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        login_user = dao.find_user(form.email.data)
-        if login_user:
-            session['email'] = form.email.data
-            print(session)
-            flash('You have been logged in!', 'success')
-            return redirect(url_for('perfil'))
+    if request.method == "POST":
+        req = request.form
+        login_user = dao.find_user(req.get("username"))
+
+        username = req.get("username")
+        password = req.get("password")
+
+        if username != login_user['user'] or login_user is None:
+            print("Username not found")
+            return redirect(request.url)
         else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
-    return render_template('login.html', title='login', form=form)
+            complete_name = login_user['user']
+
+        if not password == login_user["password"]:
+            print("Incorrect password")
+            return redirect(request.url)
+        else:
+            session["USERNAME"] = complete_name
+            print(session)
+            print("session username set")
+            return redirect(url_for("profile"))
+
+    return render_template("login.html", title='login')
 
 
-@app.route("/log-out/")
+@app.route("/profile")
+def profile():
+    if not session.get("USERNAME") is None:
+        username = session.get("USERNAME")
+        login_user = dao.find_user(username)
+        return render_template("profile.html", user=login_user)
+    else:
+        print("No username found in session")
+        return redirect(url_for("login"))
+
+
+@app.route("/log-out")
 def sign_out():
     session.clear()
     return redirect(url_for("home"))
-
-
-# Test
-@app.route("/perfil/", methods=['GET'])
-def perfil():
-    # if 'username' in session:
-    # return 'You are logged in as ' + session['username']
-    return render_template('perfil.html', title='perfil', nav_bar=True)
-
-
-@app.route("/generate-number/", methods=['GET'])
-def random_number():
-    str_number = l_master.generate_number()
-    return str_number, 200
-
-
-# This function insert the random number on user dict.
-@app.route("/initialize/<string:user_name>/", methods=['GET'])
-def to_db(user_name):
-    resolution = l_master.inserting_random(user_name)
-    return resolution, 200
 
 
 @app.route("/game/", methods=['GET'])
@@ -111,6 +95,23 @@ def mastermind():
 @app.errorhandler(404)
 def page_not_found(error):
     return 'A página não existe.', 404
+
+
+# Código inutil
+@app.route("/generate-number/", methods=['GET'])
+def random_number():
+    str_number = l_master.generate_number()
+    return str_number, 200
+
+
+# This function insert the random number on user dict.
+@app.route("/initialize/<string:user_name>/", methods=['GET'])
+def to_db(user_name):
+    resolution = l_master.inserting_random(user_name)
+    return resolution, 200
+
+
+# Código inutil
 
 
 if __name__ == '__main__':
