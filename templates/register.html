@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block content %}
+<h1 align="center">Sign Up</h1>
+<hr>
+<div lass="row content">
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-4">
+      <form action="/register/" method="POST">
+        <fieldset>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label class="form-control-label">Apelido</label>
+                        <input class="form-control form-control-lg" type="text" name="name">
 
-</body>
-</html>
+                        <label class="form-control-label">Email</label>
+                        <input class="form-control form-control-lg" type="text" name="username">
+
+                        <label>Password</label>
+                        <input class="form-control" type="password" name="password">
+
+                        <label>Confirm Password</label>
+                        <input class="form-control" type="password" name="confirm_password">
+
+                        <br />
+                        <button type="submit" class="btn btn-default form-control-label">Sign in</button>
+                    </div>
+                </div>
+         </fieldset>
+      </form>
+    </div>
+    <div class="col-sm-2">
+    </div>
+</div>
+
+{% endblock content %}

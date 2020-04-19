@@ -15,9 +15,19 @@ def home():
     return render_template('index.html', title='home')
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register/", methods=['GET', 'POST'])
 def register():
-    return "Pagina em criação."
+    if request.method == 'POST':
+        req = request.form
+        user_dict = {
+                    'name' : req.get('name'),
+                    'user': req.get('username'),
+                    'password': req.get('password')
+            }
+        id_user = dao.creating_user(user_dict)
+        return redirect(url_for("login"))
+    else:
+        return render_template('register.html', title='Cadastro')
 
 
 @app.route("/login", methods=['GET', 'POST'])

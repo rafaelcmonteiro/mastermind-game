@@ -54,4 +54,11 @@ def removing_user(user_id):
 
 
 if __name__ == '__main__':
-    print(find_user('rafael_shene@hotmail.com'))
+    dict_user = {
+                    "name": "Ricardo Felix",
+                    "username": "ricardo_tim@hotmail.com",
+                    "password": "123"
+                 }
+    id = creating_user(dict_user)
+    #removing_user('rafael')
+    print(find_users())
