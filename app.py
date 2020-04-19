@@ -19,12 +19,14 @@ def home():
 def register():
     if request.method == 'POST':
         req = request.form
+
         user_dict = {
-                    'name' : req.get('name'),
-                    'user': req.get('username'),
-                    'password': req.get('password')
-            }
+            'name': req.get('name'),
+            'user': req.get('username'),
+            'password': req.get('password')
+        }
         id_user = dao.creating_user(user_dict)
+
         return redirect(url_for("login"))
     else:
         return render_template('register.html', title='Cadastro')
@@ -38,22 +40,24 @@ def login():
 
         username = req.get("username")
         password = req.get("password")
+        if login_user is not None:
+            if username != login_user['user'] or login_user is None:
+                print("Username not found")
+                return redirect(request.url)
+            else:
+                complete_name = login_user['user']
 
-        if username != login_user['user'] or login_user is None:
-            print("Username not found")
-            return redirect(request.url)
+            if not password == login_user["password"]:
+                print("Incorrect password")
+                return redirect(request.url)
+            else:
+                session["USERNAME"] = complete_name
+                print(session)
+                print("session username set")
+                return redirect(url_for("profile"))
         else:
-            complete_name = login_user['user']
-
-        if not password == login_user["password"]:
-            print("Incorrect password")
-            return redirect(request.url)
-        else:
-            session["USERNAME"] = complete_name
-            print(session)
-            print("session username set")
-            return redirect(url_for("profile"))
-
+            return render_template("login.html", title='login', success=True, category="danger",
+                                   message_category='Usuário ou senha inválidos.')
     return render_template("login.html", title='login')
 
 
@@ -86,19 +90,23 @@ def mastermind_game():
 def mastermind():
     number_typed = request.form['typed-number']
     to_send = l_master.master_mind(number_typed, session['random_number'])
+    # Getting random number from session.
+    random_from_session = session['random_number']
     objectMastermind.list_dict.append(to_send)
     session['list_dict'] = objectMastermind.list_dict
-    if len(session['list_dict']) <= 9:
+    if len(session['list_dict']) <= 9 or to_send['result'] == '1111':
         if to_send['result'] == '1111':
             return render_template('mastermind.html', title='game', tentativas=session['list_dict'], nav_bar=False,
                                    button_disabled=True, success=True, category='success',
-                                   message_category='Parabéns, você acertou.'), 200
+                                   message_category='Parabéns, você acertou.',
+                                   random_from_session=random_from_session), 200
         else:
             return render_template('mastermind.html', title='game', tentativas=session['list_dict'], nav_bar=False), 200
     else:
         return render_template('mastermind.html', title='game', tentativas=session['list_dict'], nav_bar=False,
                                button_disabled=True, success=True, category='danger',
-                               message_category='Você chegou ao limite de tentativas, você perdeu.'), 200
+                               message_category='Você chegou ao limite de tentativas, você perdeu.',
+                               random_from_session=random_from_session), 200
 
 
 @app.errorhandler(404)

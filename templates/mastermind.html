@@ -28,12 +28,12 @@
       <form method="POST" action="{{ url_for('mastermind') }}">
         <div class="form-group">
           <label for="typed-number">Número</label>
-          <input type="text" class="form-control" id="typed-number" name="typed-number">
+          <input type="text" class="form-control" id="typed-number" name="typed-number" required>
         </div>
         <button type="submit" {% if button_disabled %} disabled {% endif %}  class="btn btn-default">Checar</button>
       </form>
       {% if success %}
-        <div class="alert alert-{{ category }}">{{ message_category }}</div>
+        <div class="alert alert-{{ category }}">{{ message_category }} O número correto é :<b>{{ random_from_session }}</b></div>
       {% endif %}
        </div>
       <hr>

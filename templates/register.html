@@ -11,16 +11,16 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <label class="form-control-label">Apelido</label>
-                        <input class="form-control form-control-lg" type="text" name="name">
+                        <input class="form-control form-control-lg" type="text" name="name" required>
 
                         <label class="form-control-label">Email</label>
-                        <input class="form-control form-control-lg" type="text" name="username">
+                        <input class="form-control form-control-lg" type="email" name="username" required>
 
                         <label>Password</label>
-                        <input class="form-control" type="password" name="password">
+                        <input class="form-control" type="password" name="password" id="password" required>
 
                         <label>Confirm Password</label>
-                        <input class="form-control" type="password" name="confirm_password">
+                        <input class="form-control" type="password" name="confirm_password" id="confirm_password" required>
 
                         <br />
                         <button type="submit" class="btn btn-default form-control-label">Sign in</button>
@@ -32,5 +32,21 @@
     <div class="col-sm-2">
     </div>
 </div>
+
+<script>
+    var password = document.getElementById("password")
+      , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword(){
+      if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Senhas diferentes!");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
 
 {% endblock content %}
