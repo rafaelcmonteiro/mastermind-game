@@ -2,7 +2,6 @@
         Necessário adicionar um log-out
 
 ############################# IMPORTANTE ###########################################
-ADICIONAR RANDOM NUMBER no final do game.
 
 @app.route("/game/", methods=['GET'])
 @app.route("/mastermind/", methods=['GET', 'POST'])

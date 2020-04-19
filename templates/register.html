@@ -28,6 +28,10 @@
                 </div>
          </fieldset>
       </form>
+        <br />
+        {% if success %}
+            <div class="alert alert-{{ category }}">{{ message_category }}</div>
+        {% endif %}
     </div>
     <div class="col-sm-2">
     </div>

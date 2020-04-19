@@ -36,7 +36,6 @@ def master_mind(number_typed, random_number):
                 result += '1'
             else:
                 result += '0'
-
     to_send = {"result": result, "number_typed": number_typed}
     return to_send
 

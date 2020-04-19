@@ -61,5 +61,5 @@ if __name__ == '__main__':
                     "password": "123"
                  }
                  '''
-    #removing_user('rafael')
-    print(find_user('Lucas'))
+    # removing_user('everton123@hotmail.com')
+    # print(find_users())
