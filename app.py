@@ -88,7 +88,6 @@ def mastermind():
     to_send = l_master.master_mind(number_typed, session['random_number'])
     objectMastermind.list_dict.append(to_send)
     session['list_dict'] = objectMastermind.list_dict
-    print(session)
     if len(session['list_dict']) <= 9:
         if to_send['result'] == '1111':
             return render_template('mastermind.html', title='game', tentativas=session['list_dict'], nav_bar=False,

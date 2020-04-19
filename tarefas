@@ -1,0 +1,24 @@
+@app.route("/log-out")
+        Necessário adicionar um log-out
+
+
+@app.route("/game/", methods=['GET'])
+@app.route("/mastermind/", methods=['GET', 'POST'])
+        Jovaveis fora e dentro da API - abilitar jogabilidade pelo curl.
+
+Melhorar altenticação do login e senha e adcionar encriping na senha.
+Não há confirmação se senha, necesseśario fazer.
+
+Opcionais:
+    # Adicionar timer
+    # Adicionar sistema de ranking dentro do login.
+
+Procurar uma maneira de fazer Deploy.
+
+Melhorar segurança do projeto.
+
+Necessario arruamr o código para a parte da frente não ficar tão pesada.
+
+Por ultimo - Tratamento de Erros.
+
+
