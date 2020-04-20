@@ -20,8 +20,10 @@ def creating_user(user_data):
 def find_users():
     connection = db_connection()
     my_col = connection["users"]
+    list_dict = []
     for x in my_col.find():
-        print(x)
+        list_dict.append(x)
+    return list_dict
 
 
 # The user_key is the user.
@@ -60,6 +62,17 @@ if __name__ == '__main__':
                     "username": "ricardo_tim@hotmail.com",
                     "password": "123"
                  }
+                 
+                 
+                 sss = []
+    for user in users_data:
+        print(user)
+        if 'record' in user:
+            sss.append({"name": user['name'], "record": user['record']})
+
+    sorted_list_dict = sorted(sss, key=lambda k: k['record'])
+    print(sorted_list_dict)
                  '''
     # removing_user('everton123@hotmail.com')
-    # print(find_users())
+    users_data = find_users()
+    print(users_data)

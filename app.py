@@ -21,11 +21,15 @@ def register():
         req = request.form
         email = req.get('username')
         email_from_db = dao.find_user(email)
+
+        password = req.get('password')
+        encoded_password = password.encode('utf-8')
+        hashed = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
         if email_from_db is None:
             user_dict = {
                 'name': req.get('name'),
                 'user': req.get('username'),
-                'password': req.get('password')
+                'password': hashed
             }
             id_user = dao.creating_user(user_dict)
             return render_template("login.html", title='login', success=True, category="success",
@@ -45,6 +49,7 @@ def login():
 
         username = req.get("username")
         password = req.get("password")
+        password = password.encode('utf-8')
         if login_user is not None:
 
             if username != login_user['user'] or login_user is None:
@@ -53,14 +58,14 @@ def login():
             else:
                 complete_name = login_user['user']
 
-            if not password == login_user["password"]:
-                print("Senha Incorreta")
-                return redirect(request.url)
-            else:
+            if bcrypt.checkpw(password, login_user["password"]):
                 session["USERNAME"] = complete_name
                 print(session)
                 print("Session contruida.")
                 return redirect(url_for("profile"))
+            else:
+                print("Senha Incorreta")
+                return redirect(request.url)
         else:
             return render_template("login.html", title='login', success=True, category="danger",
                                    message_category='Usuário ou senha inválidos.')
@@ -74,7 +79,7 @@ def profile():
         login_user = dao.find_user(username)
         return render_template("profile.html", user=login_user, nav_bar=True)
     else:
-        print("No username found in session")
+        print("Nenhum usuário encontrado na session.")
         return redirect(url_for("login"))
 
 
@@ -103,6 +108,10 @@ def mastermind():
 
     if len(session['list_dict']) <= 9 or to_send['result'] == '1111':
         if to_send['result'] == '1111':
+            if session.get('USERNAME') is not None:
+                record = len(session['list_dict'])
+                update_dict = {"record": record}
+                dao.updating_user(session['USERNAME'], update_dict)
             return render_template('mastermind.html', title='game', tentativas=session['list_dict'], nav_bar=True,
                                    button_disabled=True, success=True, category='success',
                                    message_category='Parabéns, você acertou.',
