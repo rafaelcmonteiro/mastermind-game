@@ -10,10 +10,10 @@
     <br />
     {% if user["record"] %}
         <h3>Recorde</h3>
-            Na sua ultima tentativa você quebrou o código na {{ user["record"] }} tentativa.
+            Na ultimo jogo você quebrou o código na {{ user["record"] }} tentativa.
     {% endif %}
 </div>
-<form action="{{url_for('mastermind_game')}}" method="get">
+<form action="{{url_for('game.mastermind_game')}}" method="get">
     <button type="submit" class="btn btn-default btn-block">Jogar</button>
 </form>
 

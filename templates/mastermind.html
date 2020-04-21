@@ -26,7 +26,7 @@
     </table>
 
     <div>
-      <form method="POST" action="{{ url_for('mastermind') }}">
+      <form method="POST" action="{{ url_for('game.mastermind') }}">
         <div class="form-group">
           <label for="typed-number">Número</label>
           <input type="text" class="form-control" id="typed-number" name="typed-number" required>
@@ -39,7 +39,7 @@
       {% endif %}
        </div>
       <hr>
-      <form method="GET" action="{{ url_for('mastermind_game') }}">
+      <form method="GET" action="{{ url_for('game.mastermind_game') }}">
         <button type="submit" class="btn btn-primary btn-lg btn-block" >New Game</button>
       </form>
 

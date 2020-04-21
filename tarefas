@@ -1,6 +1,6 @@
 Adicionar jogada pelo curl
 
-Melhorar altenticação do login e senha e adcionar encriping na senha.
+Necessario arruamr o código para a parte da frente não ficar tão pesada.
 
 Opcionais:
     # Adicionar timer
@@ -9,8 +9,6 @@ Opcionais:
 Procurar uma maneira de fazer Deploy.
 
 Melhorar segurança do projeto.
-
-Necessario arruamr o código para a parte da frente não ficar tão pesada.
 
 Por ultimo - Tratamento de Erros.
 
