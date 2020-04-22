@@ -25,6 +25,10 @@ Esta aplicação web é uma versão simplificada do jogo Mastermind.
 
 
 ##### Pip Freeze:
+    No diretorio onde esta o txt requirements.
+    Ative seu virtualenv.
+    rode pip install -r requirements.txt.
+
     * bcrypt==3.1.7
     * blinker==1.4
     * certifi==2020.4.5.1
@@ -63,4 +67,13 @@ Esta aplicação web é uma versão simplificada do jogo Mastermind.
     
     db.users.createIndex({user:1},{unique: true})
 
+##### Flask-Mail
 
+    Entre na pasta game.
+    Altere o gmail e senha de acordo com os seus.
+    
+    Exemplo:
+        exemplo@gmail.com
+        senha
+        
+    Não pule linha.
