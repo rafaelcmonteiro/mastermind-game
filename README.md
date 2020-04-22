@@ -11,12 +11,14 @@ Esta aplicação web é uma versão simplificada do jogo Mastermind.
 * Um significa que o digito esta correto e na posição correta.
 
 ##### Exemplo:
-    >> Número aleatório 1234\
-    >> Número chutado 2314\
-    >> Resultado 0001\
-    >> O resultado é o numero chutado, porém com os acertos e os erros. 
+    Número aleatório 1234\
+    Número chutado 2314\
+    Resultado 0001\
+    O resultado é o numero chutado, porém com os acertos e os erros. 
 
-##### build environment:
+### Configurando o Environment
+
+##### Build environment:
     distmod: ubuntu1804
     distarch: x86_64
     target_arch: x86_64
