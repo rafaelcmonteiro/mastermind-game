@@ -39,3 +39,4 @@ def sending_email(mail_user):
                       recipients=[mail_user],
                       body="Seu token é {}".format(mail_token))
         mail.send(msg)
+

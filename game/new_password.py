@@ -4,6 +4,7 @@ from flask import Blueprint
 from werkzeug.utils import redirect
 from dao import user_dao as dao
 from mail.mail_connection import sending_email
+
 # Templates : new_password.html, sending_token.html, token.html
 app = Flask("mastermind")
 
@@ -37,7 +38,8 @@ def confirm_token():
                 token_from_email = req_token.get('token')
                 if mail_token == token_from_email:
                     return redirect(url_for("new_password.new_password"))
-    return render_template('token.html')
+    return render_template('token.html', success=True, category="success",
+                           message_category='Confirme o token enviado para o e-mail')
 
 
 @mastermind_game_bp_2.route('/new-password', methods=['GET', 'POST'])
@@ -55,4 +57,5 @@ def new_password():
             dao.updating_user(email, password_dict)
             return render_template('login.html', success=True, category="success",
                                    message_category='Senha Alterada.')
-    return render_template('new_password.html')
+    return render_template('new_password.html', success=True, category="success",
+                           message_category='Token Confirmado.')
