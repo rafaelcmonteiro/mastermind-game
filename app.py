@@ -1,11 +1,14 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from game.mastermind_game import mastermind_game_bp
+from game.new_password import mastermind_game_bp_2
+
 import user_dao as dao
 from entity.userEntity import User
 import bcrypt
 
 app = Flask("mastermind")
 app.register_blueprint(mastermind_game_bp)
+app.register_blueprint(mastermind_game_bp_2)
 app.config['SECRET_KEY'] = '57956B56B56545B'
 
 

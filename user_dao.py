@@ -73,6 +73,6 @@ if __name__ == '__main__':
     sorted_list_dict = sorted(sss, key=lambda k: k['record'])
     print(sorted_list_dict)
                  '''
-    # removing_user('everton123@hotmail.com')
+    #removing_user('rafael_tom10@hotmail.com')
     users_data = find_users()
     print(users_data)

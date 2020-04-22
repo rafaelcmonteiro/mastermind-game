@@ -1,10 +1,11 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import render_template, request, session
 from flask import Blueprint
 import user_dao as dao
 import mastermind_logic as l_master
 from entity.mastermindEntity import DictClass
-objectMastermind = DictClass([{}])
 
+
+objectMastermind = DictClass([{}])
 mastermind_game_bp = Blueprint('game', 'mastermind')
 
 
