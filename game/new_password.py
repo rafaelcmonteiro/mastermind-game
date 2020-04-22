@@ -14,14 +14,9 @@ mastermind_game_bp_2 = Blueprint('new_password', 'mastermind')
 
 
 def mail_set():
-    mail_settings = {
-        "MAIL_SERVER": 'smtp.gmail.com',
-        "MAIL_PORT": 465,
-        "MAIL_USE_TLS": False,
-        "MAIL_USE_SSL": True,
-        "MAIL_USERNAME": 'rafael31101995@gmail.com',
-        "MAIL_PASSWORD": '@Yamato123'
-    }
+    with open('texto.txt', 'r') as f:
+        valor = f.read()
+    mail_settings = valor
     app.config.update(mail_settings)
     mail = Mail(app)
     return mail
