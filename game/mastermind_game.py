@@ -1,6 +1,6 @@
 from flask import render_template, request, session
 from flask import Blueprint
-import user_dao as dao
+from dao import user_dao as dao
 import mastermind_logic as l_master
 from entity.mastermindEntity import DictClass
 

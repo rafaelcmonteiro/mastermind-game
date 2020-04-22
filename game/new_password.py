@@ -1,38 +1,13 @@
 import bcrypt
 from flask import render_template, request, session, Flask, url_for
 from flask import Blueprint
-from flask_mail import Mail, Message
 from werkzeug.utils import redirect
-import user_dao as dao
-import mastermind_logic as l_master
-from entity.mastermindEntity import DictClass
-
+from dao import user_dao as dao
+from mail.mail_connection import sending_email
 # Templates : new_password.html, sending_token.html, token.html
 app = Flask("mastermind")
 
 mastermind_game_bp_2 = Blueprint('new_password', 'mastermind')
-
-
-def mail_set():
-    with open('texto.txt', 'r') as f:
-        valor = f.read()
-    mail_settings = valor
-    app.config.update(mail_settings)
-    mail = Mail(app)
-    return mail
-
-
-def sending_email(mail_user):
-    mail_token = l_master.generate_number()
-    token_dict = {"token": mail_token}
-    dao.updating_user(mail_user, token_dict)
-    mail = mail_set()
-    with app.app_context():
-        msg = Message(subject="Hello",
-                      sender=app.config.get("MAIL_USERNAME"),
-                      recipients=[mail_user],
-                      body="Seu token é {}".format(mail_token))
-        mail.send(msg)
 
 
 @mastermind_game_bp_2.route('/sending-token', methods=['GET', 'POST'])
@@ -44,7 +19,6 @@ def sending_token():
         if user_data is not None:
             # Fazer a verificação no banco para poder enviar um e-mail
             session['email'] = email
-            print(session)
             sending_email(email)
             return redirect(url_for("new_password.confirm_token"))
     return render_template('sending_token.html')
@@ -69,14 +43,16 @@ def confirm_token():
 @mastermind_game_bp_2.route('/new-password', methods=['GET', 'POST'])
 def new_password():
     if request.method == 'POST':
-        email = session['email']
-        req = request.form
-        password = req.get('password')
-        encoded_password = password.encode('utf-8')
-        hashed = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
-        password_dict = {
-            'password': hashed
-        }
-        dao.updating_user(email, password_dict)
-        return render_template('login.html')
+        if not session.get("email") is None:
+            email = session['email']
+            req = request.form
+            password = req.get('password')
+            encoded_password = password.encode('utf-8')
+            hashed = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
+            password_dict = {
+                'password': hashed
+            }
+            dao.updating_user(email, password_dict)
+            return render_template('login.html', success=True, category="success",
+                                   message_category='Senha Alterada.')
     return render_template('new_password.html')

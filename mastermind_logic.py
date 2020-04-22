@@ -1,4 +1,4 @@
-import user_dao as dao
+from dao import user_dao as dao
 import random
 import os
 

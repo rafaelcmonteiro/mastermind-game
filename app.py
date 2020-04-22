@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from game.mastermind_game import mastermind_game_bp
 from game.new_password import mastermind_game_bp_2
 
-import user_dao as dao
+from dao import user_dao as dao
 from entity.userEntity import User
 import bcrypt
 
@@ -52,7 +52,8 @@ def login():
         if login_user is not None:
             if username != login_user['user']:
                 print("Usuario não encontrado.")
-                return redirect(request.url)
+                return render_template("login.html", title='login', success=True, category="danger",
+                                       message_category='Usuário ou senha inválidos.')
             else:
                 complete_name = login_user['user']
 
@@ -63,7 +64,8 @@ def login():
                 return redirect(url_for("profile"))
             else:
                 print("Senha Incorreta")
-                return redirect(request.url)
+                return render_template("login.html", title='login', success=True, category="danger",
+                                message_category='Usuário ou senha inválidos.')
         else:
             return render_template("login.html", title='login', success=True, category="danger",
                                    message_category='Usuário ou senha inválidos.')

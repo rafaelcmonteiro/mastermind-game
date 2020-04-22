@@ -1,6 +1,2 @@
-"MAIL_SERVER": 'smtp.gmail.com',
-"MAIL_PORT": 465,
-"MAIL_USE_TLS": False,
-"MAIL_USE_SSL": True,
-"MAIL_USERNAME": 'seu email',
-"MAIL_PASSWORD": 'senha do email'
+rafael31101995@gmail.com
+@Yamato123
