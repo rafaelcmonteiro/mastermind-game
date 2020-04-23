@@ -29,8 +29,6 @@ Esta aplicação web é uma versão simplificada do jogo Mastermind.
     MongoDB shell version v4.2.5
     
     Abra o MongoDB shell através do comando "mongo" e insira os comandos a seguir: 
-	```$ mongo```
-	```> use mastermindDB```
     
     use mastermindDB
     
