@@ -23,6 +23,13 @@ Esta aplicação web é uma versão simplificada do jogo Mastermind.
     distarch: x86_64
     target_arch: x86_64
 
+
+##### Use Mastermind installer
+* Necessário instalar o pip na maquina.
+* No projeto, procure por mastermind-installer.sh
+* Copie o código e coloque em um arquivo .sh
+* Feito isso de as devidas permissões usando o comando chmod -x nomedoarquivo.sh
+
 ##### MongoDB Script
     
     db version v4.2.5
