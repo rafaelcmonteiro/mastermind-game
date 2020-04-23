@@ -56,6 +56,6 @@ def new_password():
             }
             dao.updating_user(email, password_dict)
             return render_template('login.html', success=True, category="success",
-                                   message_category='Senha Alterada.')
+                                   message_category='Senha Alterada.', nav_bar=True)
     return render_template('new_password.html', success=True, category="success",
                            message_category='Token Confirmado.')

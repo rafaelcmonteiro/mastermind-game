@@ -32,12 +32,12 @@ def register():
             user_dict = User(req.get('name'), req.get('username'), hashed).turn_into_dict()
             id_user = dao.creating_user(user_dict)
             return render_template("login.html", title='login', success=True, category="success",
-                                   message_category="Cadastro realizado com sucesso!!")
+                                   message_category="Cadastro realizado com sucesso!!", nav_bar=True)
         else:
             return render_template("register.html", title='registro', success=True, category="danger",
-                                   message_category='E-mail já cadastrado na base de dados. Tente outro.')
+                                   message_category='E-mail já cadastrado na base de dados. Tente outro.', nav_bar=True)
     else:
-        return render_template('register.html', title='Cadastro')
+        return render_template('register.html', title='Cadastro', nav_bar=True)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -53,7 +53,7 @@ def login():
             if username != login_user['user']:
                 print("Usuario não encontrado.")
                 return render_template("login.html", title='login', success=True, category="danger",
-                                       message_category='Usuário ou senha inválidos.')
+                                       message_category='Usuário ou senha inválidos.', nav_bar=True)
             else:
                 complete_name = login_user['user']
 
@@ -65,11 +65,11 @@ def login():
             else:
                 print("Senha Incorreta")
                 return render_template("login.html", title='login', success=True, category="danger",
-                                message_category='Usuário ou senha inválidos.')
+                                message_category='Usuário ou senha inválidos.', nav_bar=True)
         else:
             return render_template("login.html", title='login', success=True, category="danger",
-                                   message_category='Usuário ou senha inválidos.')
-    return render_template("login.html", title='Login')
+                                   message_category='Usuário ou senha inválidos.', nav_bar=True)
+    return render_template("login.html", title='Login', nav_bar=True)
 
 
 @app.route("/profile")
