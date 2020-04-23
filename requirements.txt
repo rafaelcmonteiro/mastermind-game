@@ -1,4 +1,4 @@
- bcrypt==3.1.7
+bcrypt==3.1.7
 blinker==1.4
 certifi==2020.4.5.1
 cffi==1.14.0
@@ -11,7 +11,6 @@ idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
-pkg-resources==0.0.0
 pycparser==2.20
 pymongo==3.10.1
 requests==2.23.0
